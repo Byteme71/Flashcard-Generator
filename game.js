@@ -7,7 +7,29 @@ var ClozeCard = require("./ClozeCard");
 
 
 
+
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+
 function askBasicCards() {
+    questions = shuffle(questions);
     if (counter < questions.length) {
         var question = new BasicCard(questions[counter].front, questions[counter].back)
         inquirer
@@ -45,6 +67,7 @@ function askBasicCards() {
 
 
 function askClozeCards() {
+    clozeQuestions = shuffle(clozeQuestions);
     if (counter < clozeQuestions.length) {
         var clozeQ = new ClozeCard(clozeQuestions[counter].fulltext, clozeQuestions[counter].cloze)
         inquirer
@@ -92,8 +115,16 @@ inquirer
         if (answer.pickGame === "Basic Card Game") {
             askBasicCards();
 
-        } else if (answer.pickGame != "Cloze Card Game") {
+        } else if (answer.pickGame === "Cloze Card Game") {
             askClozeCards();
 
         }
     });
+
+
+
+
+
+
+
+
